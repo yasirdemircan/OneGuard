@@ -1,0 +1,48 @@
+{
+  "_from": "git+https://github.com/MCluck90/cordova-plugin-android-volume.git",
+  "_id": "cordova-plugin-android-volume@0.0.13",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/cordova-plugin-android-volume",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/MCluck90/cordova-plugin-android-volume",
+    "rawSpec": "https://github.com/MCluck90/cordova-plugin-android-volume",
+    "saveSpec": "git+https://github.com/MCluck90/cordova-plugin-android-volume.git",
+    "fetchSpec": "https://github.com/MCluck90/cordova-plugin-android-volume.git",
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/MCluck90/cordova-plugin-android-volume.git#dbbae5be2a30ca91075f87a88c18097d212d93bc",
+  "_spec": "https://github.com/MCluck90/cordova-plugin-android-volume",
+  "_where": "C:\\Users\\Yasir\\Desktop\\ASE",
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/MCluck90/cordova-plugin-android-volume/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-android-volume",
+    "platforms": [
+      "android"
+    ]
+  },
+  "deprecated": false,
+  "description": "Set the volume on Android devices",
+  "homepage": "https://github.com/MCluck90/cordova-plugin-android-volume#readme",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-android-volume",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MCluck90/cordova-plugin-android-volume.git"
+  },
+  "version": "0.0.13"
+}

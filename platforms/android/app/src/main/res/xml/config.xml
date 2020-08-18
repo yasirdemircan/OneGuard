@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="io.oneguard" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
+    </feature>
+    <feature name="Root">
+        <param name="android-package" value="technology.raeder.root.Root" />
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <allow-navigation href="cdvfile:*" />
+    <feature name="Media">
+        <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="BackgroundMode">
+        <param name="android-package" value="de.appplant.cordova.plugin.background.BackgroundMode" />
+    </feature>
+    <feature name="BackgroundModeExt">
+        <param name="android-package" value="de.appplant.cordova.plugin.background.BackgroundModeExt" />
+    </feature>
+    <feature name="SMSReceive">
+        <param name="android-package" value="com.andreszs.cordova.sms.SMSReceive" />
+    </feature>
+    <feature name="Sms">
+        <param name="android-package" value="com.cordova.plugins.sms.Sms" />
+    </feature>
+    <feature name="Permission">
+        <param name="android-package" value="com.adrianodigiovanni.permission.CDVPermission" />
+    </feature>
+    <feature name="Toast">
+        <param name="android-package" value="nl.xservices.plugins.Toast" />
+    </feature>
+    <feature name="LocalNotification">
+        <param name="android-package" value="de.appplant.cordova.plugin.localnotification.LocalNotification" />
+    </feature>
+    <feature name="GPSLocation">
+        <param name="android-package" value="fr.louisbl.cordova.gpslocation.CordovaGPSLocation" />
+    </feature>
+    <feature name="AndroidVolume">
+        <param name="android-package" value="com.mcluck.plugin.AndroidVolume" />
+    </feature>
+    <feature name="Badge">
+        <param name="android-package" value="de.appplant.cordova.plugin.badge.Badge" />
+    </feature>
+    <name>OneGuard</name>
+    <description>
+       Remote tools for mobile safety
+    </description>
+    <author email="yasirdemircan@gmail.com">
+      Yasir Demircan
+    </author>
+    <icon src="www/img/logo.png" />
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/uses-permission" xmlns:android="http://schemas.android.com/apk/res/android">
+        <uses-permission android:name="android.permission.SEND_SMS" />
+        <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    </edit-config>
+    <allow-intent href="market:*" />
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="KeepRunning" value="true" />
+    <preference name="WINDOW_BACKGROUND_COLOR" value="#ffffff" />
+</widget>

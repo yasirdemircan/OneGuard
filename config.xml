@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="io.oneguard" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>OneGuard</name>
+    <description>
+       Remote tools for mobile safety
+    </description>
+    <author email="yasirdemircan@gmail.com">
+      Yasir Demircan
+    </author>
+     <preference name="WINDOW_BACKGROUND_COLOR" value="#ffffff" />
+      <icon src="www/img/logo.png"/>
+    <content src="index.html" />
+    <platform name="android">
+    <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/uses-permission" xmlns:android="http://schemas.android.com/apk/res/android">
+        <uses-permission android:name="android.permission.SEND_SMS" />
+         <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    </edit-config>
+</platform>
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+</widget>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>LostDroid</title>
+    <script src="js/platform_www/cordova.js"></script>
+    <link rel="stylesheet" href="css/bulma.css">
+</head>
+
+<body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item">
+                <h3>OneGuard</h3>
+            </a>
+
+            <a role="button" id="burger" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                 <button class="navbar-item button is-medium is-fullwidth" onclick="menuController.intro()">Intro</button>
+                <button class="navbar-item button is-medium is-fullwidth" onclick="getLoc()">Get Location</button>
+                <button class="navbar-item button is-medium is-fullwidth" onclick="beep();this.blur()">Beep</button>
+               <button class="navbar-item button is-medium is-fullwidth" onclick="menuController.keywords()">Set Keywords</button>
+                <button class="navbar-item button is-medium is-fullwidth" onclick="checkPerms('TEST')">Send SMS</button>
+
+                <div class="navbar-end">
+
+                </div>
+            </div>
+    </nav>
+      
+             <div id="main"></div>
+    
+       
+        <div id="introduction" style="display: none">
+        <h1>Welcome to OneGuard</h1>
+         <h3>You can use menu icon at right side for operations</h3>
+        </div>
+        
+        
+        
+        <div id="setSecrets" style="display: none">
+            <div style="text-align: center">
+        <legend>Set Keywords For SMS</legend>
+        <label>For gps: <input type="text" placeholder="For enabling gps" id="gpsenableSecretTxt"></label>
+       <label>For location link: <input type="text" placeholder="For getting location link" id="locationSecretTxt"></label>
+      <label> For alert: <input type="text" placeholder="For alert" id="alertSecretTxt"></label>
+                <button onclick="saveSecrets()">Save</button>
+                </div>
+         
+        </div>
+      
+        
+    <audio id="audiotag">
+        <source src="beep.mp3" type="audio/mpeg"></audio>
+</body>
+<script>
+    var allSMS;
+    var audio = document.getElementById("audiotag");
+    //Keywords
+    var gpsenableSecret = localStorage.getItem("gpsenableSecret");
+    var alertSecret = localStorage.getItem("alertSecret");
+    var locationSecret = localStorage.getItem("locationSecret");
+
+
+    var menuController = {
+        menuToggle: function(){
+          var el =  document.getElementById("burger");
+
+                    // Get the target from the "data-target" attribute
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+
+                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+
+                 
+        },
+        keywords : function(){
+             document.getElementById("main").innerHTML = document.getElementById("setSecrets").innerHTML;
+           this.menuToggle();
+    gpsenableSecret = localStorage.getItem("gpsenableSecret");
+    alertSecret = localStorage.getItem("alertSecret");
+    locationSecret = localStorage.getItem("locationSecret");
+    document.getElementById("gpsenableSecretTxt").value = gpsenableSecret;
+    document.getElementById("alertSecretTxt").value = alertSecret;
+    document.getElementById("locationSecretTxt").value = locationSecret;
+    
+            
+        },
+        intro : function(){
+             document.getElementById("main").innerHTML = document.getElementById("introduction").innerHTML;
+            this.menuToggle();
+        }
+    }
+   
+    //MENU RELATED STUFF
+    document.addEventListener('DOMContentLoaded', () => {
+ document.getElementById("main").innerHTML = document.getElementById("introduction").innerHTML;
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+        // Check if there are any navbar burgers
+        if ($navbarBurgers.length > 0) {
+
+            // Add a click event on each of them
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
+
+                    // Get the target from the "data-target" attribute
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+
+                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+
+                });
+            });
+        }
+
+    });
+
+    document.addEventListener('deviceready', function() {
+        //Check Keywords!
+        if(gpsenableSecret || alertSecret || locationSecret){
+           //Values are intact
+           }else{
+              localStorage.setItem("gpsenableSecret","oneguard enable gps");
+               localStorage.setItem("alertSecret","oneguard alert");
+               localStorage.setItem("locationSecret","oneguard location");
+            
+           }
+        //Background Operations
+        cordova.plugins.backgroundMode.enable();
+        cordova.plugins.backgroundMode.overrideBackButton();
+        cordova.plugins.backgroundMode.setDefaults({
+            silent: true
+        });
+        //cordova.plugins.backgroundMode.excludeFromTaskList();
+        cordova.plugins.backgroundMode.on('activate', function() {
+            cordova.plugins.backgroundMode.disableWebViewOptimizations();
+        });
+        //Sms Watcher
+        SMSReceive.startWatch(function() {
+    gpsenableSecret = localStorage.getItem("gpsenableSecret");
+    alertSecret = localStorage.getItem("alertSecret");
+    locationSecret = localStorage.getItem("locationSecret");
+
+            document.addEventListener('onSMSArrive', function(e) {
+                var IncomingSMS = e.data;
+                if (IncomingSMS.body.toLowerCase() == alertSecret) {
+                    beep();
+                } else if (IncomingSMS.body.toLowerCase() == locationSecret) {
+                    getLoc(IncomingSMS.address);
+                } else if (IncomingSMS.body.toLowerCase() == gpsenableSecret) {
+                    enableLocationROOT();
+                } else {
+                    //Implement more functionality 
+                }
+                console.log(JSON.stringify(IncomingSMS));
+            });
+
+
+        }, function() {
+            console.warn('smsreceive: failed to start watching');
+        });
+
+    }, false);
+
+
+    //cordova.plugins.backgroundMode.wakeUp();
+
+    // Get all the nav-btns in the page
+    let navBtns = document.querySelectorAll('.nav-btn');
+
+    // Add an event handler for all nav-btns to enable the dropdown functionality
+    navBtns.forEach(function(ele) {
+        ele.addEventListener('click', function() {
+            // Get the dropdown-menu associated with this nav button (insert the id of your menu)
+            let dropDownMenu = document.getElementById('header-menu');
+
+            // Toggle the nav-btn and the dropdown menu
+            ele.classList.toggle('active');
+            dropDownMenu.classList.toggle('active');
+        });
+    });
+
+
+    function getFullMediaURL() {
+        return cordova.file.applicationDirectory + 'www/beep.mp3'
+    }
+
+    /*function beep() {
+        // Play the audio file at url
+        var my_media = new Media(getFullMediaURL(),
+            // success callback
+            function() {
+                console.log("playAudio():Audio Success");
+            },
+            // error callback
+            function(err) {
+                console.log("playAudio():Audio Error: " + err);
+            }
+        );
+        // Play audio
+        my_media.play();
+    }*/
+    function beep() {
+        setAudio();
+        audio.play();
+    }
+
+
+    function getLoc(number) {
+        var location;
+        var locurl;
+        navigator.geolocation.getCurrentPosition(function(loc) {
+            location = loc.coords.latitude + "," + loc.coords.longitude;
+            locurl = "https://www.google.com/maps/search/?api=1&query=" + location;
+            sendSMS(locurl, number);
+        })
+    }
+
+    function su() {
+        root.isAvailable(function(res) {
+            if (res)
+                console.log("SU access is available and granted");
+            else
+                console.log("SU access was denied or is not available");
+        }, function() {
+            console.error('An error occoured while checking for SU availability');
+        });
+    }
+
+    function getAudio() {
+        window.androidVolume.getMusic(function(vol) {
+            alert(vol);
+        }, function(err) {
+            alert(err)
+        });
+    }
+
+    function setAudio() {
+        window.androidVolume.setMusic(100);
+    }
+
+
+    function enableLocationROOT() {
+        root.run('settings put secure location_providers_allowed +gps,network,wifi', function(res) {
+            console.log(res);
+
+        }, function() {
+            console.error('An error occoured while executing the command.');
+        });
+    }
+
+    function setAudioROOT() {
+        root.run('service call audio 3 i32 3 i32 20 i32 1', function(res) {
+            console.log(res);
+
+        }, function() {
+            console.error('An error occoured while executing the command.');
+        });
+    }
+
+
+    //SMS sender function
+    function sendSMS(param, number) {
+        var number = number /* iOS: ensure number is actually a string */
+        var message = param;
+        console.log("number=" + number + ", message= " + message);
+
+        //CONFIGURATION
+        var options = {
+            replaceLineBreaks: false, // true to replace \n by a new line, false by default
+            android: {
+                //intent: 'INTENT'  // send SMS with the native android SMS messaging
+                intent: '' // send SMS without opening any other app
+            }
+        };
+
+        var success = function() {
+            alert('Message sent successfully');
+        };
+        var error = function(e) {
+            alert('Message Failed:' + e);
+        };
+        sms.send(number, message, options, success, error);
+    }
+    //var Permission = 
+    function reqPerm(param, number) {
+        var permission = 'android.permission.SEND_SMS'
+        window.plugins.Permission.request(permission, function(results) {
+            if (results[permission]) {
+                // permission is granted
+                sendSMS(param, number)
+            }
+        }, alert)
+    }
+
+    function checkPerms(param, number) {
+        var permission = 'android.permission.SEND_SMS'
+        window.plugins.Permission.has(permission, function(results) {
+            if (results[permission]) {
+                // permission is granted
+                sendSMS(param, number)
+            } else {
+                reqPerm(param, number)
+            }
+        }, function(err) {
+            console.log("err with perm" + err.message)
+        })
+    }
+    /*
+// verify grant for multiple permissions
+var permissions = ['android.permission.RECORD_AUDIO', 'android.permission.READ_CONTACTS']
+Permission.has(permissions, function(results) {
+    if (results['android.permission.RECORD_AUDIO']) {
+        // permission is granted
+    }
+}, alert)*/
+
+</script>
+
+</html>

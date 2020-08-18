@@ -1,0 +1,51 @@
+{
+  "_from": "cordova-plugin-root",
+  "_id": "cordova-plugin-root@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha1-jiJQ/3OsIKCM608loa03hkIQ8mg=",
+  "_location": "/cordova-plugin-root",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-root",
+    "name": "cordova-plugin-root",
+    "escapedName": "cordova-plugin-root",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-root/-/cordova-plugin-root-1.0.0.tgz",
+  "_shasum": "8e2250ff73ac20a08ceb4f25a1ad37864210f268",
+  "_spec": "cordova-plugin-root",
+  "_where": "C:\\Users\\Yasir\\Desktop\\ASE",
+  "author": {
+    "name": "Benjamin Räder"
+  },
+  "bugs": {
+    "url": "https://github.com/N0ps32/cordova-plugin-root/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Detect, request and use superuser permissions on Android devices.",
+  "homepage": "https://github.com/N0ps32/cordova-plugin-root#readme",
+  "keywords": [
+    "cordova",
+    "root",
+    "superuser",
+    "android",
+    "request",
+    "shell"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-root",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/N0ps32/cordova-plugin-root.git"
+  },
+  "version": "1.0.0"
+}

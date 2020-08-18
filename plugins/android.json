@@ -1,0 +1,62 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-root": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-android-volume": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-media": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-background-mode": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-sms-receive": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-sms-plugin": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-permission": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-x-toast": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-local-notification": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-gpslocation": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-android-window-background": {
+      "WINDOW_BACKGROUND_COLOR": "#ffffff",
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-badge": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    }
+  }
+}

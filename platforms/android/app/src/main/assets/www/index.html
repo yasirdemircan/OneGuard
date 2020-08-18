@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>OneGuard</title>
+    <script src="js/platform_www/cordova.js"></script>
+    <link rel="stylesheet" href="css/spectre.min.css">
+    <link rel="stylesheet" href="css/spectre-exp.min.css">
+    <link rel="stylesheet" href="css/spectre-icons.min.css">
+    <link rel="stylesheet" href="css/icons/extraicons.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        html,
+        body {}
+
+        .fixnav {
+
+            overflow: hidden;
+            position: fixed;
+            /* Set the navbar to fixed position */
+            top: 0;
+            /* Position the navbar at the top of the page */
+            width: 100%;
+            /* Full width */
+
+
+        }
+
+        .fixbutton {
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+        }
+
+        #main {
+            overflow: hidden;
+        }
+
+    </style>
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <div class="off-canvas">
+        <!-- off-screen toggle button -->
+
+
+        <div id="sidebar-id" class="off-canvas-sidebar">
+            <a class="navbar-brand mr-2" style="color: crimson">Oneguard</a><br>
+            <a class="btn btn-link" onclick="menuController.intro()"><i class="icon icon-apps"></i> Intro</a><br>
+            <a class="btn btn-link" onclick="menuController.keywords()"><i class="icon icon-message"></i> Set Keywords</a><br>
+            <a class="btn btn-link" onclick="menuController.settings()"><i class="icon icon-edit"></i> Settings</a><br>
+            <a class="btn btn-link" onclick="closeApp()"><i class="icon icon-cross"></i> Exit</a><br>
+              <!--<a class="btn btn-link" onclick="testLoc()"><i class="icon icon-location"></i> Get Location</a><br>-->
+            <!--<a class="btn btn-link" onclick="beep();this.blur()">Beep</a><br>-->
+            <!-- <a class="btn btn-link" onclick="checkPerms()">Send SMS</a><br>-->
+            <!-- <a class="btn btn-link" onclick="alertCenter.showToast('TEST')">Toast</a><br>-->
+            <!-- <a class="btn btn-link" onclick="alertCenter.showNotification('TestTitle','Test text')">Notify</a><br>-->
+            <!--<a class="btn btn-link" onclick="testGpsLoc()">Get GPS Location</a>-->
+
+        </div>
+
+
+        <a class="off-canvas-overlay" href="#close"></a>
+        <div class="off-canvas-content fixnav" style="background: rgba(247,248,249);height:55px;z-index: 1;">
+            <!--.65 alpha-->
+            <a class="off-canvas-toggle btn btn-link btn-action" href="#sidebar-id">
+                <i class="icon icon-menu"></i>
+
+            </a>
+            <!-- off-screen content -->
+            <div style="display:flex;width:100%;height:100%;align-items:center;">
+
+                <a style="position:relative;top:-2px;" class="navbar-brand mr-2">Oneguard</a><br>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="main"></div>
+    <div id="introduction" style="display:none">
+        <div class="card" style="margin-top: 55px">
+            <div class="card-image">
+                <img src="img/logo.png" class="img-responsive">
+            </div>
+            <div class="card-header">
+                <div class="card-title h5">Welcome to OneGuard</div>
+                <div class="card-subtitle text-gray">Remote Tools for mobile safety</div>
+            </div>
+            <div class="card-body">
+                You can use menu icon at right side for operations
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary" onclick="window.location.hash='#sidebar-id'">Take me to there</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="setSecrets" style="display: none">
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <div style="text-align:center;">
+                        <i class="icon icon-message icon-2x" style="margin: 50px"></i>
+                    </div>
+                    <div class="card-title h5">Set keywords for SMS</div>
+                    <div class="card-subtitle text-gray">Customize your SMS commands</div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="form-label" for="locationSecretTxt">For location link:</label>
+                        <input class="form-input" type="text" id="locationSecretTxt" placeholder="For getting location link">
+
+                        <label class="form-label" for="gpslocationSecretTxt">For Gps location link (alternative):</label>
+                        <input class="form-input" type="text" id="gpslocationSecretTxt" placeholder="For gps location">
+
+                        <label class="form-label" for="alertSecretTxt">For Alert:</label>
+                        <input class="form-input" type="text" id="alertSecretTxt" placeholder="For alert">
+                        <br>
+                        <center><h5>---Root Only Keywords---</h5></center>
+                   
+                         <label class="form-label" for="gpsenableSecretTxt">For Gps:</label>
+                        <input class="form-input" type="text" id="gpsenableSecretTxt" placeholder="For enabling gps">
+                        
+                        <label class="form-label" for="rootwifiSecretTxt">For Wifi:</label>
+                        <input class="form-input" type="text" id="rootwifiSecretTxt" placeholder="For enabling wifi">
+
+                        <label class="form-label" for="rootdataSecretTxt">For Data:</label>
+                        <input class="form-input" type="text" id="rootdataSecretTxt" placeholder="For enabling data">
+
+                        <label class="form-label" for="rootallSecretTxt">For all connectivity (Gps,Wifi,Data):</label>
+                        <input class="form-input" type="text" id="rootallSecretTxt" placeholder="For enabling all connectivity">
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary" onclick="keywordManager.saveKeywords()">Save</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div id="settingsMenu" style="display: none">
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <div style="text-align:center;">
+                        <i class="icon icon-edit icon-2x" style="margin: 50px"></i>
+                    </div>
+                    <div class="card-title h5">Application Settings</div>
+                    <div class="card-subtitle text-gray">Customize your application behaviour.(some settings require restart to apply)</div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="form-switch">
+                            <input id="legacyCheck" type="checkbox">
+                            <i class="form-icon"></i> Legacy Mode
+                        </label>
+                        <label class="form-switch">
+                            <input id="bgNotify" type="checkbox">
+                            <i class="form-icon"></i> Background Notification
+                        </label>
+                        <label class="form-switch">
+                            <input id="hideRecents" type="checkbox">
+                            <i class="form-icon"></i> Hide from Recent Apps
+                        </label>
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <audio id="audiotag">
+        <source src="beep.mp3" type="audio/mpeg"></audio>
+</body>
+<script>
+    var allSMS;
+    var audio = document.getElementById("audiotag");
+
+
+
+    var keywordManager = {
+        keywords: ["gpsenableSecret", "alertSecret", "locationSecret", "rootwifiSecret", "rootdataSecret", "rootallSecret", "gpslocationSecret"],
+
+        setKeyword: function(keyname) {
+            //IMPLEMENT LATER
+            var command = "oneguard " + keyname.split("S")[0]
+            localStorage.setItem(keyname, command)
+        },
+
+
+        checkAll: function() {
+
+            this.keywords.forEach(function(el) {
+                if (localStorage.getItem(el)) {
+
+                } else {
+
+                    keywordManager.setKeyword(el);
+                }
+            })
+        },
+
+        saveKeywords: function() {
+            this.keywords.forEach(function(el) {
+                localStorage.setItem(el, document.getElementById(el + "Txt").value.toLowerCase())
+
+            });
+            alertCenter.showToast("Successfuly changed keywords");
+
+        }
+
+    }
+
+    //IF A SETTING DOESNT EXIST
+    if (localStorage.getItem("lmode")) {
+
+    } else {
+        //DECLARE DEFAULT SETTINGS
+        localStorage.setItem("lmode", "false");
+        localStorage.setItem("bgnotify", "true");
+        localStorage.setItem("hiderecents", "true");
+    }
+
+    var appSettings = {
+        getSetting: function(setname) {
+            var setting = localStorage.getItem(setname);
+            var bool = JSON.parse(setting);
+            return bool
+        },
+        setSetting: function(setname, val) {
+            localStorage.setItem(setname, val);
+        }
+
+    }
+
+    var rootSettings = {
+        checkSu: function() {
+            root.isAvailable(function(res) {
+                if (res)
+                    console.log("SU access is available and granted");
+                else
+                    console.log("SU access was denied or is not available");
+            }, function() {
+                console.error('An error occoured while checking for SU availability');
+            });
+
+        },
+        enableGps: function() {
+            root.run('settings put secure location_providers_allowed +gps,network,wifi', function(res) {
+                console.log(res);
+
+            }, function() {
+                console.error('An error occoured while executing the command.');
+            });
+
+        },
+        enableWifi: function() {
+            root.run('svc wifi enable', function(res) {
+                console.log(res);
+
+            }, function() {
+                console.error('An error occoured while executing the command.');
+            });
+        },
+        enableData: function() {
+            root.run('svc data enable', function(res) {
+                console.log(res);
+
+            }, function() {
+                console.error('An error occured while executing the command.');
+            });
+        },
+        enableAll: function() {
+            this.enableData();
+            this.enableGps();
+            this.enableWifi();
+        }
+
+    }
+
+    var alertCenter = {
+        showNotification: function(title, text) {
+            cordova.plugins.notification.local.setDefaults({
+                led: {
+                    color: '#FF00FF',
+                    on: 500,
+                    off: 500
+                },
+                vibrate: true,
+                sound: true,
+                smallIcon: false
+
+            });
+            cordova.plugins.notification.local.schedule({
+                title: title,
+                text: text,
+                foreground: false
+
+
+            });
+        },
+        showToast: function(text) {
+            window.plugins.toast.showWithOptions({
+                message: text,
+                duration: "short", // 2000 ms
+                position: "bottom",
+                addPixelsY: -150,
+                styling: {
+                    opacity: 0.75, // 0.0 (transparent) to 1.0 (opaque). Default 0.8
+                    backgroundColor: '#2D5CBD', // make sure you use #RRGGBB. Default #333333
+                    textColor: '#FFFFFF', // Ditto. Default #FFFFFF
+                    textSize: 20.5, // Default is approx. 13.
+                    cornerRadius: 16, // minimum is 0 (square). iOS default 20, Android default 100
+                    horizontalPadding: 20, // iOS default 16, Android default 50
+                    verticalPadding: 16 // iOS default 12, Android default 30
+                }
+            });
+        }
+    }
+
+
+    /* window.addEventListener('DOMContentLoaded', (event) => {
+        
+     });*/
+
+    var menuController = {
+        menuToggle: function() {
+            window.location.hash = "#close"
+        },
+        keywords: function() {
+            document.getElementById("main").innerHTML = document.getElementById("setSecrets").innerHTML;
+            this.menuToggle();
+            keywordManager.keywords.forEach(function(el) {
+                document.getElementById(el + "Txt").value = localStorage.getItem(el);
+
+            })
+
+
+        },
+        settings: function() {
+
+            document.getElementById("main").innerHTML = document.getElementById("settingsMenu").innerHTML;
+            document.getElementById("legacyCheck").checked = appSettings.getSetting("lmode");
+            document.getElementById("bgNotify").checked = appSettings.getSetting("bgnotify");
+            document.getElementById("hideRecents").checked = appSettings.getSetting("hiderecents");
+            this.menuToggle();
+
+        },
+        intro: function() {
+            document.getElementById("main").innerHTML = document.getElementById("introduction").innerHTML;
+            this.menuToggle();
+        }
+    }
+
+    var Secrets = {
+
+    }
+
+
+    document.addEventListener('deviceready', function() {
+        //Check Permissions 
+        reqAllPerm();
+        document.getElementById("main").innerHTML = document.getElementById("introduction").innerHTML;
+
+        //Check Keywords!
+        keywordManager.checkAll();
+        //Background Operations
+        cordova.plugins.backgroundMode.enable();
+        cordova.plugins.backgroundMode.overrideBackButton();
+        if (appSettings.getSetting("hiderecents")) {
+            cordova.plugins.backgroundMode.excludeFromTaskList();
+        } else {
+
+        }
+
+
+
+        cordova.plugins.backgroundMode.on('activate', function() {
+
+
+            if (appSettings.getSetting("bgnotify")) {
+
+
+            } else {
+                cordova.plugins.backgroundMode.setDefaults({
+                    silent: true
+                });
+
+            }
+            cordova.plugins.backgroundMode.disableWebViewOptimizations();
+        });
+
+
+
+        //Sms Watcher
+        SMSReceive.startWatch(function() {
+            var gpsenableSecret = localStorage.getItem("gpsenableSecret");
+            var alertSecret = localStorage.getItem("alertSecret");
+            var locationSecret = localStorage.getItem("locationSecret");
+            var rootwifiSecret = localStorage.getItem("rootwifiSecret");
+            var rootdataSecret = localStorage.getItem("rootdataSecret");
+            var rootallSecret = localStorage.getItem("rootallSecret");
+            var gpslocationSecret = localStorage.getItem("gpslocationSecret");
+            document.addEventListener('onSMSArrive', function(e) {
+                var IncomingSMS = e.data.body.toLowerCase();
+                var number = e.data.adress;
+                if (IncomingSMS == alertSecret) {
+                    beep();
+                } else if (IncomingSMS == locationSecret) {
+                    getLoc(number);
+                } else if (IncomingSMS == gpsenableSecret) {
+                    rootSettings.enableGps();
+                } else if (IncomingSMS == rootwifiSecret) {
+                    rootSettings.enableWifi();
+                } else if (IncomingSMS == rootdataSecret) {
+                    rootSettings.enableData();
+                } else if (IncomingSMS == rootallSecret) {
+                    rootSettings.enableAll();
+                } else if (IncomingSMS == gpslocationSecret) {
+                    getGpsLoc(number);
+                }
+                console.log(JSON.stringify(IncomingSMS));
+            });
+
+
+        }, function() {
+            console.warn('smsreceive: failed to start watching');
+        });
+
+    }, false);
+
+
+    //cordova.plugins.backgroundMode.wakeUp();
+
+    // Get all the nav-btns in the page
+    let navBtns = document.querySelectorAll('.nav-btn');
+
+    // Add an event handler for all nav-btns to enable the dropdown functionality
+    navBtns.forEach(function(ele) {
+        ele.addEventListener('click', function() {
+            // Get the dropdown-menu associated with this nav button (insert the id of your menu)
+            let dropDownMenu = document.getElementById('header-menu');
+
+            // Toggle the nav-btn and the dropdown menu
+            ele.classList.toggle('active');
+            dropDownMenu.classList.toggle('active');
+        });
+    });
+
+
+    function getFullMediaURL() {
+        return cordova.file.applicationDirectory + 'www/beep.mp3'
+    }
+
+
+    function beep() {
+        setAudio();
+        audio.play();
+    }
+
+    function testLoc() {
+        function error(e) {
+            return e.message;
+        }
+        navigator.geolocation.getCurrentPosition(function(loc) {
+            var testloc = loc.coords.latitude + "," + loc.coords.longitude;
+            console.log(testloc)
+
+        }, error)
+    }
+
+    function getGpsLoc(number) {
+
+        var lmode = appSettings.getSetting("lmode");
+        //LEGACY
+        if (lmode) {
+            cordova.plugins.backgroundMode.unlock();
+        }
+
+        var options = {
+            maximumAge: 3000,
+            timeout: 5000
+        };
+
+        function error(e) {
+            return e.message;
+        }
+
+
+        function geolocationSuccess(loc) {
+            var gpsloc = loc.coords.latitude + "," + loc.coords.longitude;
+            console.log(gpsloc)
+            //LEGACY
+            if (lmode) {
+                cordova.plugins.backgroundMode.moveToBackground();
+            }
+
+            var gpslocurl = "https://www.google.com/maps/search/?api=1&query=" + gpsloc;
+
+            sendSMS(gpslocurl, number);
+
+            alertCenter.showNotification("Located by GPS", gpsloc);
+        }
+        GPSLocation.getCurrentPosition(geolocationSuccess,
+            error, options);
+    }
+
+    function getLoc(number) {
+        var lmode = appSettings.getSetting("lmode");
+        //LEGACY
+        if (lmode) {
+            cordova.plugins.backgroundMode.unlock();
+        }
+
+
+        var location;
+        var locurl;
+
+        var options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        };
+
+        function error(err) {
+            alertCenter.showNotification(err.code, err.message)
+        }
+        navigator.geolocation.getCurrentPosition(function(loc) {
+            //LEGACY
+            if (lmode) {
+                cordova.plugins.backgroundMode.moveToBackground();
+            }
+            location = loc.coords.latitude + "," + loc.coords.longitude;
+            locurl = "https://www.google.com/maps/search/?api=1&query=" + location;
+
+            sendSMS(locurl, number);
+            //Send Notification
+            alertCenter.showNotification("Sent Location", "Your location has been sent to the recipient")
+        }, error, options)
+    }
+
+
+
+    function getAudio() {
+        window.androidVolume.getMusic(function(vol) {
+            alert(vol);
+        }, function(err) {
+            alert(err)
+        });
+    }
+
+    function setAudio() {
+        window.androidVolume.setMusic(100);
+    }
+
+    //SMS sender function
+    function sendSMS(param, number) {
+        var number = number /* iOS: ensure number is actually a string */
+        var message = param;
+        console.log("number=" + number + ", message= " + message);
+
+        //CONFIGURATION
+        var options = {
+            replaceLineBreaks: false, // true to replace \n by a new line, false by default
+            android: {
+                //intent: 'INTENT'  // send SMS with the native android SMS messaging
+                intent: '' // send SMS without opening any other app
+            }
+        };
+
+        var success = function() {
+
+        };
+        var error = function(e) {
+
+        };
+        sms.send(number, message, options, success, error);
+    }
+
+    function reqAllPerm() {
+        var isFirstTime = localStorage.getItem("notfirsttime");
+        if (isFirstTime) {
+            //Not the first time of the user 
+        } else {
+            var permissions = ['android.permission.SEND_SMS', 'android.permission.ACCESS_FINE_LOCATION', "android.permission.READ_PHONE_STATE", "android.permission.RECEIVE_SMS"];
+            window.plugins.Permission.request(permissions, function(results) {
+                if (results['android.permission.SEND_SMS']) {
+                    alertCenter.showToast("Send SMS permission is granted");
+                    rootSettings.checkSu();
+                    localStorage.setItem("notfirsttime", "true");
+                } else if (results['android.permission.RECIEVE_SMS']) {
+                    alertCenter.showToast("Recieve SMS permission is granted");
+                } else if (results['android.permission.ACCESS_FINE_LOCATION']) {
+                    alertCenter.showToast("Location permission is granted");
+                }
+            }, alert)
+        }
+
+    }
+
+    function saveSettings() {
+        var lmodeCheck = document.getElementById("legacyCheck").checked;
+        var bgmodeCheck = document.getElementById("bgNotify").checked;
+        var recentsCheck = document.getElementById("hideRecents").checked;
+        appSettings.setSetting("hiderecents", recentsCheck);
+        appSettings.setSetting("lmode", lmodeCheck);
+        appSettings.setSetting("bgnotify", bgmodeCheck);
+        alertCenter.showToast("Saved!");
+    }
+
+
+    function checkPerms() {
+        alertCenter.showToast("Empty");
+    }
+
+    function closeApp() {
+        navigator.app.exitApp()
+    }
+
+</script>
+
+</html>

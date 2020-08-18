@@ -1,0 +1,59 @@
+{
+  "name": "helloworld",
+  "displayName": "HelloCordova",
+  "version": "1.0.0",
+  "description": "A sample Apache Cordova application that responds to the deviceready event.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ecosystem:cordova"
+  ],
+  "author": "Apache Cordova Team",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "cordova-android": "^8.1.0",
+    "cordova-plugin-android-volume": "git+https://github.com/MCluck90/cordova-plugin-android-volume.git",
+    "cordova-plugin-android-window-background": "1.0.2",
+    "cordova-plugin-background-mode": "^0.7.3",
+    "cordova-plugin-badge": "^0.8.8",
+    "cordova-plugin-device": "^2.0.3",
+    "cordova-plugin-file": "^6.0.2",
+    "cordova-plugin-geolocation": "^4.0.2",
+    "cordova-plugin-gpslocation": "^1.0.0",
+    "cordova-plugin-local-notification": "^0.9.0-beta.2",
+    "cordova-plugin-media": "^5.0.3",
+    "cordova-plugin-permission": "^0.1.0",
+    "cordova-plugin-root": "^1.0.0",
+    "cordova-plugin-sms-receive": "^1.0.2",
+    "cordova-plugin-x-toast": "^2.7.2",
+    "cordova-sms-plugin": "^1.0.0",
+    "plugin": "0.3.3"
+  },
+  "devDependencies": {
+    "cordova-plugin-whitelist": "1"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-geolocation": {},
+      "cordova-plugin-root": {},
+      "cordova-plugin-android-volume": {},
+      "cordova-plugin-media": {},
+      "cordova-plugin-background-mode": {},
+      "cordova-plugin-sms-receive": {},
+      "cordova-sms-plugin": {},
+      "cordova-plugin-permission": {},
+      "cordova-plugin-x-toast": {},
+      "cordova-plugin-local-notification": {},
+      "cordova-plugin-gpslocation": {},
+      "cordova-plugin-android-window-background": {
+        "WINDOW_BACKGROUND_COLOR": "#ffffff"
+      }
+    },
+    "platforms": [
+      "android"
+    ]
+  }
+}
